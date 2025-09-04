@@ -1,0 +1,14 @@
+.header-desktop {
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 1000;
+  /* đảm bảo nằm trên cùng */
+  /* nếu bạn có background, gán luôn để che phần dưới: */
+  background-color: #fff;
+}
+
+.page-container {
+  padding-top: 75px;
+  /* hoặc margin-top: 80px; */
+}

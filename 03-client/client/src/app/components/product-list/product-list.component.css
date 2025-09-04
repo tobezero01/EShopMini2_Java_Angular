@@ -1,0 +1,23 @@
+.table-responsive {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.table th,
+.table td {
+  vertical-align: middle;
+  /* đảm bảo căn giữa */
+}
+
+.table img {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 2px;
+  background: #fff;
+}
+
+.product-img {
+  object-fit: contain;
+  max-height: 180px;
+}
