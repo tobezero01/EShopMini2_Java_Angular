@@ -1,68 +1,67 @@
-<div class="main-content">
-  <div class="section-content section-content-p30">
-    <div class="container-fluid">
-      <div class="row">
+<div >
+  <div class="section-content section-content-p30 py-4">
+    <div class="container grid-container">  <!-- ✅ thêm grid-container -->
 
-        <!-- loop over the collection of products -->
-        <div *ngFor="let tempProduct of products" class="col-md-3">
+      <!-- ✅ bỏ g-3, dùng biến CSS để set gutter đồng nhất -->
+      <div class="row grid row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-xl-5">
 
-          <div class="product-box">
-
-            <a routerLink="/products/{{ tempProduct.id }}">
-              <img src="{{ tempProduct.imageUrl }}" class="img-responsive">
+        <!-- loop -->
+        <div class="col" *ngFor="let p of products">
+          <div class="card h-100 product-card shadow-sm position-relative">
+            <a [routerLink]="['/products', p.id]" class="product-image-link">
+              <img [src]="p.imageUrl" [alt]="p.name" class="card-img-top">
             </a>
 
-            <a routerLink="/products/{{ tempProduct.id }}">
-              <h1>{{ tempProduct.name }}</h1>
-            </a>
+            <div class="card-body d-flex flex-column">
+              <h6 class="card-title mb-2 text-truncate-2">
+                <a [routerLink]="['/products', p.id]" class="stretched-link text-decoration-none text-body">
+                  {{ p.name }}
+                </a>
+              </h6>
 
-            <div class="price">{{ tempProduct.unitPrice | currency:'USD' }}</div>
-            <button (click)="addToCart(tempProduct)" class="btn btn-primary btn-sm">Add to cart</button>
-          </div>
-
-        </div>
-
-        <!-- if products empty then display a message-->
-        <div *ngIf="products?.length == 0" class="alert alert-warning col-md-12" role="alert">
-          No products found.
-        </div>
-
-      </div>
-
-      <!-- begin footer -->
-      <div class="footer-pagination">
-        <div class="row">
-          <div class="col-md-6"></div>
-
-          <div class="col-md-6">
-            <div class="row">
-              <div class="col-md-9" style="padding-left: 30%">
-
-                <ngb-pagination [(page)]="thePageNumber" [pageSize]="thePageSize" [collectionSize]="theTotalElements"
-                  [maxSize]="5" [boundaryLinks]="true" (pageChange)="listProducts()">
-
-                </ngb-pagination>
-
+              <div class="mt-auto d-flex justify-content-between align-items-center">
+                <span class="price text-success fw-semibold">
+                  {{ p.unitPrice | currency:'USD' }}
+                </span>
               </div>
-
-              <div class="col-md-3 mt-2" style="text-align: right;">
-                <span class="mr-2">Page Size</span>
-
-                <select (change)="updatePageSize($event.target.value)">
-                  <option>2</option>
-                  <option selected="true">5</option>
-                  <option>10</option>
-                  <option>20</option>
-                  <option>50</option>
-                </select>
-              </div>
-
             </div>
           </div>
+        </div>
 
+        <!-- empty -->
+        <div *ngIf="products?.length === 0" class="col-12">
+          <div class="alert alert-warning text-center" role="alert">
+            No products found.
+          </div>
         </div>
       </div>
-      <!-- end footer -->
+
+      <!-- footer pagination -->
+      <div class="footer-pagination">
+        <div class="d-flex flex-wrap justify-content-end align-items-center gap-2">
+          <label class="mb-0 small">Page Size</label>
+
+          <!-- nhớ đã import FormsModule vào component -->
+          <select class="form-select form-select-sm w-auto"
+                  [(ngModel)]="thePageSize"
+                  (ngModelChange)="thePageNumber=1; listProducts()">
+            <option [value]="2">2</option>
+            <option [value]="5">5</option>
+            <option [value]="10">10</option>
+            <option [value]="20">20</option>
+            <option [value]="50">50</option>
+          </select>
+
+          <ngb-pagination class="mb-0"
+            [(page)]="thePageNumber"
+            [pageSize]="thePageSize"
+            [collectionSize]="theTotalElements"
+            [maxSize]="5"
+            [boundaryLinks]="true"
+            (pageChange)="listProducts()">
+          </ngb-pagination>
+        </div>
+      </div>
 
     </div>
   </div>
