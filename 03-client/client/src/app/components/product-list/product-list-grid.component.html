@@ -14,7 +14,7 @@
 
             <div class="card-body d-flex flex-column">
               <h6 class="card-title mb-2 text-truncate-2">
-                <a [routerLink]="['/products', p.id]" class="stretched-link text-decoration-none text-body">
+                <a [routerLink]="['/products', p.id]" class=" text-decoration-none text-body">
                   {{ p.name }}
                 </a>
               </h6>
@@ -24,6 +24,8 @@
                   {{ p.unitPrice | currency:'USD' }}
                 </span>
               </div>
+
+              <button (click)="addToCart(p)" class="btn btn-primary btn-sm ">Add to cart</button>
             </div>
           </div>
         </div>

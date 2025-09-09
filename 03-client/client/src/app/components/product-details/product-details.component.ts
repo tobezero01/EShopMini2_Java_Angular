@@ -3,6 +3,8 @@ import { Product } from '../../common/product';
 import { ProductService } from '../../services/product.service';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { CartService } from '../../services/cart.service';
+import { CartItem } from '../../common/cart-item';
 
 @Component({
   selector: 'app-product-details',
@@ -13,20 +15,35 @@ import { CommonModule } from '@angular/common';
 })
 export class ProductDetailsComponent implements OnInit {
 
-  product?: Product;
+  product: Product = new Product();
 
-  constructor(
-    private readonly productService: ProductService,
-    private readonly route: ActivatedRoute
-  ) { }
+  constructor(private productService: ProductService,
+              private cartService: CartService,
+              private readonly route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe(() => this.handleProductDetail());
+    this.route.paramMap.subscribe(() => {
+      this.handleProductDetails();
+    })
   }
 
-  private handleProductDetail() {
-    const theProductId = Number(this.route.snapshot.paramMap.get('id'));
-    if (!Number.isFinite(theProductId)) return; // guard nhẹ
-    this.productService.getProduct(theProductId).subscribe(data => this.product = data);
+  handleProductDetails() {
+
+    // get the "id" param string. convert string to a number using the "+" symbol
+    const theProductId: number = +this.route.snapshot.paramMap.get('id')!;
+
+    this.productService.getProduct(theProductId).subscribe(
+      data => {
+        this.product = data;
+      }
+    )
+  }
+
+  addToCart() {
+
+    console.log(`Adding to cart: ${this.product.name}, ${this.product.unitPrice}`);
+    const theCartItem = new CartItem(this.product);
+    this.cartService.addToCart(theCartItem);
+
   }
 }

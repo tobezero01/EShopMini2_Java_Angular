@@ -6,6 +6,8 @@ import { ActivatedRoute, RouterModule } from '@angular/router';
 import { ProductService } from '../../services/product.service';
 import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
+import { CartItem } from '../../common/cart-item';
+import { CartService } from '../../services/cart.service';
 
 @Component({
   selector: 'app-product-list',
@@ -36,7 +38,8 @@ export class ProductListComponent implements OnInit {
   // DI: Inject ProductService để gọi API; ActivatedRoute để đọc tham số route (id, keyword)
   constructor(
     private readonly productService: ProductService,
-    private readonly router: ActivatedRoute
+    private readonly router: ActivatedRoute,
+    private readonly cartService: CartService
   ) { }
 
   /**
@@ -156,6 +159,13 @@ export class ProductListComponent implements OnInit {
     this.thePageSize = pageSize;
     this.thePageNumber = 1;
     this.listProducts();
+  }
+
+  addToCart(theProduct: Product) {
+
+    console.log(`Adding to cart: ${theProduct.name}, ${theProduct.unitPrice}`);
+    const theCartItem = new CartItem(theProduct);
+    this.cartService.addToCart(theCartItem);
   }
 
 }
