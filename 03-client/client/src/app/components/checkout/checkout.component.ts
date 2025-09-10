@@ -2,10 +2,13 @@ import { MyFormService } from './../../services/my-form.service';
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { Country } from '../../common/country';
 import { State } from '../../common/state';
 import { MyValidators } from '../../validators/my-validators';
+import { CartService } from '../../services/cart.service';
+import { CheckoutService } from '../../services/checkout.service';
+import { Order } from '../../common/order';
 
 @Component({
   selector: 'app-checkout',
@@ -31,11 +34,17 @@ export class CheckoutComponent implements OnInit {
   billingAddressStates: State[] = [];
 
   constructor(private readonly formBuilder: FormBuilder,
-    private readonly myFormService: MyFormService
+    private readonly myFormService: MyFormService,
+    private readonly cartService: CartService,
+    private readonly checkoutService: CheckoutService,
+    private readonly router: Router
   ) {
 
   }
   ngOnInit(): void {
+    this.reviewCartDetails();
+
+
     this.checkoutFormGroup = this.formBuilder.group({
       customer: this.formBuilder.group({
         firstName: new FormControl('',
@@ -98,9 +107,30 @@ export class CheckoutComponent implements OnInit {
       }
     );
   }
+  reviewCartDetails() {
+    this.cartService.totalQuantity.subscribe(
+      totalQuantity => this.totalQuantity = totalQuantity
+    );
+
+    this.cartService.totalPrice.subscribe(
+      totalPrice => this.totalPrice = totalPrice
+    );
+
+  }
 
   onSubmit() {
     console.log("Handling the submit button");
+
+    if (this.checkoutFormGroup?.invalid) {
+      this.checkoutFormGroup.markAllAsTouched();
+      return;
+    }
+
+    let order = new Order();
+    order.totalPrice = this.totalPrice;
+    order.totalQuantity = this.totalQuantity;
+
+    const cartItems = this.cartService.cartItems;
 
   }
 
