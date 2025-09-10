@@ -39,37 +39,37 @@ export class CheckoutComponent implements OnInit {
     this.checkoutFormGroup = this.formBuilder.group({
       customer: this.formBuilder.group({
         firstName: new FormControl('',
-                              [Validators.required,
-                               Validators.minLength(2),
-                               MyValidators.notOnlyWhitespace]),
+          [Validators.required,
+          Validators.minLength(2),
+          MyValidators.notOnlyWhitespace]),
 
-        lastName:  new FormControl('',
-                              [Validators.required,
-                               Validators.minLength(2),
-                               MyValidators.notOnlyWhitespace]),
+        lastName: new FormControl('',
+          [Validators.required,
+          Validators.minLength(2),
+          MyValidators.notOnlyWhitespace]),
 
         email: new FormControl('',
-                              [Validators.required, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')])
+          [Validators.required, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')])
       }),
       shippingAddress: this.formBuilder.group({
         street: new FormControl('', [Validators.required, Validators.minLength(2),
-                                     MyValidators.notOnlyWhitespace]),
+        MyValidators.notOnlyWhitespace]),
         city: new FormControl('', [Validators.required, Validators.minLength(2),
-                                   MyValidators.notOnlyWhitespace]),
+        MyValidators.notOnlyWhitespace]),
         state: new FormControl('', [Validators.required]),
         country: new FormControl('', [Validators.required]),
         zipCode: new FormControl('', [Validators.required, Validators.minLength(2),
-                                      MyValidators.notOnlyWhitespace])
+        MyValidators.notOnlyWhitespace])
       }),
       billingAddress: this.formBuilder.group({
         street: new FormControl('', [Validators.required, Validators.minLength(2),
-                                     MyValidators.notOnlyWhitespace]),
+        MyValidators.notOnlyWhitespace]),
         city: new FormControl('', [Validators.required, Validators.minLength(2),
-                                   MyValidators.notOnlyWhitespace]),
+        MyValidators.notOnlyWhitespace]),
         state: new FormControl('', [Validators.required]),
         country: new FormControl('', [Validators.required]),
         zipCode: new FormControl('', [Validators.required, Validators.minLength(2),
-                                      MyValidators.notOnlyWhitespace])
+        MyValidators.notOnlyWhitespace])
       }),
       creditCard: this.formBuilder.group({
 
@@ -138,7 +138,7 @@ export class CheckoutComponent implements OnInit {
     }
   }
 
-    getStates(formGroupName: string) {
+  getStates(formGroupName: string) {
 
     const formGroup = this.checkoutFormGroup?.get(formGroupName);
 
